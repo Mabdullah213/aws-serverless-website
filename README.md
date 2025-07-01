@@ -1,3 +1,4 @@
+```mermaid
 graph TD
     subgraph "User's Browser"
         User(fa:fa-user User)
@@ -26,7 +27,7 @@ graph TD
     %% Path 3: Backend logic and permissions
     Lambda -- "5. Gets/Updates item" --> DB
     Lambda -.->|uses| IAM
-    
+
     %% Path 4: Monitoring for all services
     Lambda -- "Logs/Metrics" --> CW
     APIGW -- "Logs/Metrics" --> CW
