@@ -1,3 +1,15 @@
+# **AWS Serverless Portfolio Website**
+
+**Live Demo:** [https://your-cloudfront-url.net](https://your-cloudfront-url.net) ---
+
+This project is a personal portfolio and resume website built on a completely serverless architecture in AWS. The entire infrastructure is defined as code using Terraform and deployed automatically via a CI/CD pipeline with GitHub Actions.
+
+### **Key Features & Description**
+
+* [cite_start]Architected a secure and scalable serverless portfolio website hosted on S3, delivered globally via CloudFront, and powered by a backend API using Lambda, API Gateway, and DynamoDB for dynamic content[cite: 14, 15].
+* [cite_start]Automated the entire infrastructure deployment using Terraform (Infrastructure as Code) and built a complete CI/CD pipeline with GitHub Actions to streamline the development and release process[cite: 16].
+
+### **Architecture Diagram**
 ```mermaid
 graph TD
     subgraph "User's Browser"
@@ -15,21 +27,22 @@ graph TD
     end
 
     %% --- Connections ---
-
-    %% Path 1: User requests the static website content
     User -- "1. Requests resume website" --> CF
     CF -- "2. Securely serves static files" --> S3
-
-    %% Path 2: JavaScript on the website calls the API to count the visit
-    User -- "3. JavaScript POST request" --> APIGW
+    User -- "3. JS makes API call" --> APIGW
     APIGW -- "4. Triggers function" --> Lambda
-
-    %% Path 3: Backend logic and permissions
     Lambda -- "5. Gets/Updates item" --> DB
     Lambda -.->|uses| IAM
-
-    %% Path 4: Monitoring for all services
     Lambda -- "Logs/Metrics" --> CW
     APIGW -- "Logs/Metrics" --> CW
-    CF -- "Logs" --> CW
-Project is now live!
+```
+
+### **Tech Stack**
+
+* [cite_start]**Cloud:** AWS (S3, CloudFront, Lambda, API Gateway, DynamoDB, IAM) [cite: 12]
+* [cite_start]**Infrastructure as Code (IaC):** Terraform [cite: 29]
+* **CI/CD:** GitHub Actions
+* [cite_start]**Languages:** Python, JavaScript, HTML/CSS [cite: 29]
+
+---
+*This project was built as a practical, hands-on learning experience.*
