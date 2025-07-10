@@ -18,7 +18,12 @@ provider "aws" {
 
 # Create an S3 bucket for the website files
 resource "aws_s3_bucket" "website_bucket" {
-  bucket = "mjaved-resume-website-2025" # Use your unique bucket name
+  bucket = "mjaved-resume-website-2025-v2" # Renamed
+
+  tags = {
+    Name        = "My Resume Website Bucket"
+    Project     = "Serverless Resume"
+  }
 }
 
 # Configure the S3 bucket for static website hosting
@@ -34,21 +39,21 @@ resource "aws_s3_bucket_website_configuration" "website_config" {
 resource "aws_s3_object" "index" {
   bucket = aws_s3_bucket.website_bucket.id
   key    = "index.html"
-  source = "index.html" # Assumes index.html is in the same directory
+  source = "index.html" 
   content_type = "text/html"
 }
 
 resource "aws_s3_object" "style" {
   bucket = aws_s3_bucket.website_bucket.id
   key    = "style.css"
-  source = "style.css" # Assumes style.css is in the same directory
+  source = "style.css"
   content_type = "text/css"
 }
 
 resource "aws_s3_object" "script" {
   bucket = aws_s3_bucket.website_bucket.id
   key    = "script.js"
-  source = "script.js" # Assumes script.js is in the same directory
+  source = "script.js"
   content_type = "application/javascript"
 }
 
@@ -58,7 +63,7 @@ resource "aws_s3_object" "script" {
 
 # Create an Origin Access Control for CloudFront
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = "OAC for mjaved-resume-website"
+  name                              = "OAC for mjaved-resume-website-v2" # Renamed
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -132,7 +137,7 @@ resource "aws_s3_bucket_policy" "allow_cloudfront" {
 
 # Create a DynamoDB table to store the visitor count
 resource "aws_dynamodb_table" "visitor_table" {
-  name           = "visitor-counter"
+  name           = "visitor-counter-v2" # Renamed
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "PK"
 
@@ -173,13 +178,13 @@ data "aws_iam_policy_document" "lambda_exec_policy" {
 
 # Create the IAM role for the Lambda function
 resource "aws_iam_role" "lambda_exec_role" {
-  name               = "resume-visitor-counter-role"
+  name               = "resume-visitor-counter-role-v2" # Renamed
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
 # Attach the execution policy to the IAM role
 resource "aws_iam_role_policy" "lambda_exec_policy" {
-  name   = "DynamoDBVisitorCounterPolicy"
+  name   = "DynamoDBVisitorCounterPolicyV2"
   role   = aws_iam_role.lambda_exec_role.id
   policy = data.aws_iam_policy_document.lambda_exec_policy.json
 }
@@ -197,7 +202,7 @@ data "archive_file" "lambda_zip" {
 
 # Create the Lambda function
 resource "aws_lambda_function" "visitor_counter_lambda" {
-  function_name    = "updateVisitorCounter"
+  function_name    = "updateVisitorCounterV2" # Renamed
   handler          = "lambda_function.lambda_handler"
   runtime          = "python3.12"
   role             = aws_iam_role.lambda_exec_role.arn
@@ -212,10 +217,10 @@ resource "aws_lambda_function" "visitor_counter_lambda" {
 
 # Create an HTTP API Gateway
 resource "aws_apigatewayv2_api" "visitor_api" {
-  name          = "visitor-counter-api"
+  name          = "visitor-counter-api-v2" # Renamed
   protocol_type = "HTTP"
   cors_configuration {
-    allow_origins = ["*"] # For production, restrict this to your CloudFront URL
+    allow_origins = ["*"] 
     allow_methods = ["POST"]
     allow_headers = ["Content-Type"]
   }
