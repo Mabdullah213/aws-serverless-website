@@ -32,3 +32,4 @@ graph TD
     Lambda -- "Logs/Metrics" --> CW
     APIGW -- "Logs/Metrics" --> CW
     CF -- "Logs" --> CW
+Project is now live!
