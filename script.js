@@ -1,7 +1,6 @@
-// This function will be called when the page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Replace this with the actual Invoke URL of your API Gateway stage
-    const apiUrl = 'https://l6dtmjrwb6.execute-api.us-east-1.amazonaws.com/visit';
+    // Replace this placeholder with the LATEST Invoke URL from your GitHub Actions output
+    const apiUrl = 'https://rcx6iz9kd4.execute-api.us-east-1.amazonaws.com/visit';
 
     // Make a POST request to the API
     fetch(apiUrl, {
