@@ -1,6 +1,6 @@
 # **AWS Serverless Portfolio Website**
 
-**Live Demo:** [https://your-cloudfront-url.net](https://your-cloudfront-url.net) ---
+**Live Demo:** [https://https://d1ibk6q0hov7af.cloudfront.net/) ---
 
 This project is a personal portfolio and resume website built on a completely serverless architecture in AWS. The entire infrastructure is defined as code using Terraform and deployed automatically via a CI/CD pipeline with GitHub Actions.
 
