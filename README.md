@@ -1,14 +1,16 @@
-# **AWS Serverless Portfolio Website**
+AWS Serverless Portfolio Website
+Live Demo: https://d1ibk6q0hov7af.cloudfront.net
 
-**Live Demo:** [https://your-cloudfront-url.net](https://your-cloudfront-url.net) ---
+This project is a personal portfolio and resume website built on a completely serverless architecture within AWS. The entire infrastructure is defined as code using Terraform and deployed automatically via a CI/CD pipeline with GitHub Actions.
 
-This project is a personal portfolio and resume website built on a completely serverless architecture in AWS. The entire infrastructure is defined as code using Terraform and deployed automatically via a CI/CD pipeline with GitHub Actions.
+Key Features
+Serverless Architecture: Utilizes AWS Lambda, API Gateway, and DynamoDB to create a dynamic backend without managing servers.
 
-### **Key Features & Description**
+Global Content Delivery: Leverages Amazon S3 for static hosting and CloudFront as a CDN for low-latency, secure content delivery worldwide.
 
-* [cite_start]Architected a secure and scalable serverless portfolio website hosted on S3, delivered globally via CloudFront, and powered by a backend API using Lambda, API Gateway, and DynamoDB for dynamic content[cite: 14, 15].
-* [cite_start]Automated the entire infrastructure deployment using Terraform (Infrastructure as Code) and built a complete CI/CD pipeline with GitHub Actions to streamline the development and release process[cite: 16].
+Infrastructure as Code (IaC): The entire AWS infrastructure is defined and managed in Terraform, enabling consistent and repeatable deployments.
 
+Automated CI/CD: A GitHub Actions workflow automatically deploys any changes pushed to the main branch, streamlining the development and release process.
 ### **Architecture Diagram**
 ```mermaid
 graph TD
@@ -37,13 +39,14 @@ graph TD
     APIGW -- "Logs/Metrics" --> CW
 ```
 
-### **Tech Stack**
+Tech Stack
+Cloud: AWS (S3, CloudFront, Lambda, API Gateway, DynamoDB, IAM)
 
-* [cite_start]**Cloud:** AWS (S3, CloudFront, Lambda, API Gateway, DynamoDB, IAM) [cite: 12]
-* [cite_start]**Infrastructure as Code (IaC):** Terraform [cite: 29]
-* **CI/CD:** GitHub Actions
-* [cite_start]**Languages:** Python, JavaScript, HTML/CSS [cite: 29]
+Infrastructure as Code (IaC): Terraform
 
+CI/CD: GitHub Actions
+
+Languages: Python, JavaScript, HTML/CSS
 ---
 *This project was built as a practical, hands-on learning experience.*
 ## Final Update
