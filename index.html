@@ -3,85 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muhammad Abdullah Javed - Cloud & Security Professional</title>
+    <title>Muhammad Abdullah Javed - Cloud & Security</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <h1>Muhammad Abdullah Javed</h1>
-                <h2>AWS Portfolio</h2>
-                <p>A detail-oriented IT Support Specialist and Computer Science student with a passion for cybersecurity and cloud infrastructure. Proven experience in incident response, log analysis, and strengthening security policy adherence, with a strong foundation in AWS and automation.</p>
-                <div class="contact-info">
-                    <a href="mailto:muhammad.javed@coyotes.usd.edu"><i class="fas fa-envelope"></i> muhammad.javed@coyotes.usd.edu</a>
-                    <a href="tel:+1-605-659-0872"><i class="fas fa-phone"></i> (605) 659-0872</a>
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <h1 class="name">Muhammad Abdullah Javed</h1>
+                <h2 class="title">Cloud & Security Professional</h2>
+                <p class="summary">
+                    A detail-oriented IT Support Specialist and Computer Science student with a passion for cybersecurity and cloud infrastructure.
+                </p>
+                <nav class="contact-nav">
+                    <a href="mailto:muhammad.javed@coyotes.usd.edu"><i class="fas fa-envelope"></i> Email</a>
+                    <a href="tel:+1-605-659-0872"><i class="fas fa-phone"></i> Phone</a>
                     <a href="https://www.linkedin.com/in/mjaved213/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
                     <a href="https://github.com/Mabdullah213" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                </nav>
+                <div class="visitor-counter">
+                    <i class="fas fa-users"></i>
+                    <span>Visitors: </span>
+                    <span id="visitor-count">Loading...</span>
                 </div>
             </div>
-        </header>
+        </aside>
 
-        <main>
-            <section id="skills">
-                <h3>Technical Skills</h3>
-                <ul>
-                    <li><strong>Security Frameworks:</strong> CIS Critical Controls, NIST Cybersecurity Framework</li>
-                    <li><strong>SIEM & Log Analysis:</strong> SIEM (Splunk/ELK), Log Correlation, AWS CloudWatch</li>
-                    <li><strong>Identity & Access (IAM):</strong> Multi-Factor Authentication (MFA), NAC, AWS IAM</li>
-                    <li><strong>Network & Cloud Security:</strong> DNS-layer Security, DLP, CASB, Email Security, VPC, Security Groups</li>
-                    <li><strong>Infrastructure & Automation:</strong> Terraform, Docker, Python, Bash</li>
-                </ul>
-            </section>
-            
-            <section id="certifications">
-                <h3>Certifications</h3>
-                <div class="certification-item">
-                    <h4>CompTIA Security+ (SY0-701)</h4>
-                </div>
-                 <div class="certification-item">
-                    <h4>AWS Solutions Architect-Associate (In Progress)</h4>
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <section id="experience">
+                <h3>Professional Experience</h3>
+                <div class="item">
+                    <h4>IT Support Specialist | University of South Dakota</h4>
+                    <p class="date"><em>January 2023 – Present</em></p>
+                    <ul>
+                        <li>Accelerated incident response by analyzing EDR, SIEM, and DNS logs for complex escalations, contributing to a reduction in median time-to-resolution.</li>
+                        <li>Strengthened security policy adherence by resolving over 200 user-facing tickets for MFA, Network Access Control (NAC), and email security controls.</li>
+                        <li>Contributed to network security architecture by analyzing vulnerability and IDS/IPS data to recommend and verify network segmentation and patching strategies.</li>
+                    </ul>
                 </div>
             </section>
 
             <section id="projects">
                 <h3>Projects</h3>
-                <div class="project-item">
-                    <h4>AWS Serverless Web App</h4>
-                    <p>Deployed a secure serverless architecture using S3, Lambda, and DynamoDB, enforcing the principle of least privilege with granular AWS IAM roles. Configured API Gateway for controlled API access and established comprehensive security monitoring and alerting with AWS CloudWatch.</p>
+                <div class="item">
+                    <h4>AWS Serverless Portfolio Website</h4>
+                    <p>Architected a secure and scalable serverless portfolio website hosted on S3, delivered globally via CloudFront, and powered by a backend API using Lambda, API Gateway, and DynamoDB for dynamic content. Automated the entire infrastructure deployment using Terraform and built a complete CI/CD pipeline with GitHub Actions.</p>
                 </div>
-                <div class="project-item">
+                <div class="item">
                     <h4>FitNex – Secure Fitness Platform</h4>
                     <p>Engineered a full-stack application, preventing unauthorized access with JWT-based authentication and mitigating injection attacks through the use of an ORM with parameterized queries. Hardened the application by running Snyk to identify and patch vulnerable dependencies and implementing input validation to protect against XSS.</p>
                 </div>
             </section>
-
-            <section id="experience">
-                <h3>Professional Experience</h3>
-                <div class="experience-item">
-                    <h4>IT Support Specialist | University of South Dakota</h4>
-                    <p><em>January 2023 – Present</em></p>
-                    <ul>
-                        <li>Accelerated incident response by analyzing EDR, SIEM, and DNS logs for complex escalations, contributing to a roughly a 15% reduction in median time-to-resolution.</li>
-                        <li>Strengthened security policy adherence by resolving over 200 user-facing tickets for MFA, Network Access Control (NAC), and email security controls.</li>
-                        <li>Proactively improved security posture by analyzing vulnerability scans and IDS/IPS alerts to identify, escalate, and confirm the patching of critical threats.</li>
-                    </ul>
+            
+            <section id="skills">
+                <h3>Technical Skills</h3>
+                <div class="skills-grid">
+                    <span>AWS (EC2, S3, Lambda)</span>
+                    <span>Terraform</span>
+                    <span>Python</span>
+                    <span>Docker</span>
+                    <span>CI/CD</span>
+                    <span>SIEM (Splunk/ELK)</span>
+                    <span>NIST Framework</span>
+                    <span>Network Security</span>
+                    <span>IAM</span>
+                    <span>Bash</span>
                 </div>
             </section>
 
             <section id="education">
-                <h3>Education</h3>
-                <div class="education-item">
-                    <h4>Bachelor of Science, Computer Science | University of South Dakota</h4>
-                    <p><em>Expected Graduation: May 2026</em></p>
+                <h3>Education & Certifications</h3>
+                <div class="item">
+                    <h4>Bachelor of Science, Computer Science</h4>
+                    <p>University of South Dakota | Expected May 2026</p>
+                </div>
+                <div class="item">
+                    <h4>CompTIA Security+ (SY0-701)</h4>
+                </div>
+                 <div class="item">
+                    <h4>AWS Solutions Architect-Associate (In Progress)</h4>
                 </div>
             </section>
         </main>
-
-        <footer>
-            <p class="visitor-counter">Website Visitors: <span id="visitor-count">Loading...</span></p>
-        </footer>
     </div>
     <script src="script.js"></script>
 </body>
