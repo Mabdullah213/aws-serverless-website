@@ -47,6 +47,7 @@ graph TD
     Lambda -.->|uses| IAM
     Lambda -- "Logs/Metrics" --> CW
     APIGW -- "Logs/Metrics" --> CW
+```
 Tech Stack
 Cloud & Networking: AWS (S3, CloudFront, Lambda, API Gateway, DynamoDB, IAM, Route 53, ACM, WAF)
 
