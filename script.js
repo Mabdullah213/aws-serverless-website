@@ -1,7 +1,7 @@
-// This function will be called when the page loads
+//Final Update to correct the API endpoint
 document.addEventListener('DOMContentLoaded', function() {
     // Replace this placeholder with the LATEST Invoke URL from your GitHub Actions output
-    const apiUrl = 'https://llygkaatc1.execute-api.us-east-1.amazonaws.com/';
+    const apiUrl = 'https://llygkaatc1.execute-api.us-east-1.amazonaws.com';
 
     // Make a POST request to the API
     fetch(apiUrl, {
