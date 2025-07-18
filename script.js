@@ -1,6 +1,7 @@
+// This function will be called when the page loads
 document.addEventListener('DOMContentLoaded', function() {
     // Replace this placeholder with the LATEST Invoke URL from your GitHub Actions output
-    const apiUrl = 'https://rcx6iz9kd4.execute-api.us-east-1.amazonaws.com/visit';
+    const apiUrl = 'https://llygkaatc1.execute-api.us-east-1.amazonaws.com/';
 
     // Make a POST request to the API
     fetch(apiUrl, {
