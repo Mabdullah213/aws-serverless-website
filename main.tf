@@ -11,9 +11,20 @@ provider "aws" {
   region = "us-east-1"
 }
 
+# DATA SOURCES for Domain (we keep these)
+data "aws_route53_zone" "primary" {
+  name         = "muhammadjaved.com"
+  private_zone = false
+}
+
+data "aws_acm_certificate" "cert" {
+  domain   = "muhammadjaved.com"
+  statuses = ["ISSUED"]
+}
+
 # S3 BUCKET
 resource "aws_s3_bucket" "website_bucket" {
-  bucket = "mjaved-resume-website-2025-v4" # Renamed
+  bucket = "mjaved-resume-website-2025-v4"
 }
 
 resource "aws_s3_bucket_website_configuration" "website_config" {
@@ -46,7 +57,7 @@ resource "aws_s3_object" "script" {
 
 # CLOUDFRONT
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = "OAC for mjaved-resume-website-v4" # Renamed
+  name                              = "OAC for mjaved-resume-website-v4"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -61,7 +72,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
-  aliases             = ["muhammadjaved.com", "www.muhammadjaved.com"]
+
+  # aliases = ["muhammadjaved.com", "www.muhammadjaved.com"] # Temporarily commented out
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -82,9 +94,14 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
+  # viewer_certificate { # Temporarily commented out
+  #   acm_certificate_arn = data.aws_acm_certificate.cert.arn
+  #   ssl_support_method  = "sni-only"
+  # }
+
+  # Use the default CloudFront certificate for this initial deployment
   viewer_certificate {
-    acm_certificate_arn = data.aws_acm_certificate.cert.arn
-    ssl_support_method  = "sni-only"
+    cloudfront_default_certificate = true
   }
 }
 
@@ -109,9 +126,9 @@ resource "aws_s3_bucket_policy" "allow_cloudfront" {
   policy = data.aws_iam_policy_document.s3_policy.json
 }
 
-# DYNAMODB
+# DYNAMODB, IAM, LAMBDA, API GATEWAY (No changes)
 resource "aws_dynamodb_table" "visitor_table" {
-  name         = "visitor-counter-v4" # Renamed
+  name         = "visitor-counter-v4"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "PK"
   attribute {
@@ -120,7 +137,6 @@ resource "aws_dynamodb_table" "visitor_table" {
   }
 }
 
-# IAM ROLE
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -143,7 +159,7 @@ data "aws_iam_policy_document" "lambda_exec_policy" {
 }
 
 resource "aws_iam_role" "lambda_exec_role" {
-  name               = "resume-visitor-counter-role-v4" # Renamed
+  name               = "resume-visitor-counter-role-v4"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
@@ -153,7 +169,6 @@ resource "aws_iam_role_policy" "lambda_exec_policy" {
   policy = data.aws_iam_policy_document.lambda_exec_policy.json
 }
 
-# LAMBDA
 data "archive_file" "lambda_zip" {
   type        = "zip"
   source_file = "lambda_function.py"
@@ -161,7 +176,7 @@ data "archive_file" "lambda_zip" {
 }
 
 resource "aws_lambda_function" "visitor_counter_lambda" {
-  function_name    = "updateVisitorCounterV4" # Renamed
+  function_name    = "updateVisitorCounterV4"
   handler          = "lambda_function.lambda_handler"
   runtime          = "python3.12"
   role             = aws_iam_role.lambda_exec_role.arn
@@ -169,9 +184,8 @@ resource "aws_lambda_function" "visitor_counter_lambda" {
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 }
 
-# API GATEWAY
 resource "aws_apigatewayv2_api" "visitor_api" {
-  name          = "visitor-counter-api-v4" # Renamed
+  name          = "visitor-counter-api-v4"
   protocol_type = "HTTP"
   cors_configuration {
     allow_origins = ["*"]
@@ -206,39 +220,28 @@ resource "aws_lambda_permission" "api_gateway_permission" {
   source_arn    = "${aws_apigatewayv2_api.visitor_api.execution_arn}/*/*"
 }
 
-# DATA SOURCES for Domain
-data "aws_route53_zone" "primary" {
-  name         = "muhammadjaved.com"
-  private_zone = false
-}
 
-data "aws_acm_certificate" "cert" {
-  domain   = "muhammadjaved.com"
-  statuses = ["ISSUED"]
-}
-
-# ROUTE 53 RECORDS
-resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.primary.zone_id
-  name    = "www.muhammadjaved.com"
-  type    = "A"
-  alias {
-    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
-resource "aws_route53_record" "root" {
-  zone_id = data.aws_route53_zone.primary.zone_id
-  name    = "muhammadjaved.com"
-  type    = "A"
-  alias {
-    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
+# ROUTE 53 RECORDS (Temporarily commented out)
+# resource "aws_route53_record" "www" {
+#   zone_id = data.aws_route53_zone.primary.zone_id
+#   name    = "www.muhammadjaved.com"
+#   type    = "A"
+#   alias {
+#     name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+#     zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+#     evaluate_target_health = false
+#   }
+# }
+# resource "aws_route53_record" "root" {
+#   zone_id = data.aws_route53_zone.primary.zone_id
+#   name    = "muhammadjaved.com"
+#   type    = "A"
+#   alias {
+#     name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+#     zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+#     evaluate_target_health = false
+#   }
+# }
 
 # OUTPUTS
 output "cloudfront_domain_name" {
