@@ -1,16 +1,12 @@
 import json
 import boto3
 
-# Initialize the DynamoDB client
 dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('visitor-counter')
+# IMPORTANT: This now points to the new 'v3' table name
+table = dynamodb.Table('visitor-counter-v3') 
 
 def lambda_handler(event, context):
-    """
-    Updates and retrieves the visitor count from DynamoDB.
-    """
     try:
-        # Get the current count and update it by 1
         response = table.update_item(
             Key={'PK': 'resume-visitor-count'},
             UpdateExpression='ADD #c :inc',
@@ -18,11 +14,7 @@ def lambda_handler(event, context):
             ExpressionAttributeValues={':inc': 1},
             ReturnValues="UPDATED_NEW"
         )
-
-        # Get the new count from the response
         new_count = response['Attributes']['count']
-
-        # Return a successful response with CORS headers
         return {
             'statusCode': 200,
             'headers': {
@@ -32,9 +24,7 @@ def lambda_handler(event, context):
             },
             'body': json.dumps({'count': str(new_count)})
         }
-
     except Exception as e:
-        # Handle any errors
         print(f"Error: {e}")
         return {
             'statusCode': 500,
