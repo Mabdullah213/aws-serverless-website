@@ -9,8 +9,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
-      contents: read
+      id-token: write 
+      contents: read  
 
     steps:
       - name: Checkout
@@ -30,3 +30,9 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+
+      # --- NEW STEP ADDED BELOW ---
+      - name: Invalidate CloudFront Cache
+        run: |
+          DISTRIBUTION_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?Aliases.Items[0]=='muhammadjaved.com'].Id" --output text)
+          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/index.html" "/style.css" "/script.js"
