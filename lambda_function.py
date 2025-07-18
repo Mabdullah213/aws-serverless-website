@@ -2,8 +2,8 @@ import json
 import boto3
 
 dynamodb = boto3.resource('dynamodb')
-# IMPORTANT: This now points to the new 'v3' table name
-table = dynamodb.Table('visitor-counter-v3') 
+# IMPORTANT: This now points to the new 'v4' table name
+table = dynamodb.Table('visitor-counter-v4') 
 
 def lambda_handler(event, context):
     try:
