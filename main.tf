@@ -24,7 +24,7 @@ data "aws_acm_certificate" "cert" {
 
 # S3 BUCKET
 resource "aws_s3_bucket" "website_bucket" {
-  bucket = "mjaved-resume-website-2025-v5" # Renamed
+  bucket = "mjaved-resume-website-2025-v6" # Renamed
 }
 
 resource "aws_s3_bucket_website_configuration" "website_config" {
@@ -57,7 +57,7 @@ resource "aws_s3_object" "script" {
 
 # CLOUDFRONT
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = "OAC for mjaved-resume-website-v5" # Renamed
+  name                              = "OAC for mjaved-resume-website-v6" # Renamed
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -122,7 +122,7 @@ resource "aws_s3_bucket_policy" "allow_cloudfront" {
 
 # DYNAMODB
 resource "aws_dynamodb_table" "visitor_table" {
-  name         = "visitor-counter-v5" # Renamed
+  name         = "visitor-counter-v6" # Renamed
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "PK"
   attribute {
@@ -154,12 +154,12 @@ data "aws_iam_policy_document" "lambda_exec_policy" {
 }
 
 resource "aws_iam_role" "lambda_exec_role" {
-  name               = "resume-visitor-counter-role-v5" # Renamed
+  name               = "resume-visitor-counter-role-v6" # Renamed
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
 resource "aws_iam_role_policy" "lambda_exec_policy" {
-  name   = "DynamoDBVisitorCounterPolicyV5"
+  name   = "DynamoDBVisitorCounterPolicyV6"
   role   = aws_iam_role.lambda_exec_role.id
   policy = data.aws_iam_policy_document.lambda_exec_policy.json
 }
@@ -172,7 +172,7 @@ data "archive_file" "lambda_zip" {
 }
 
 resource "aws_lambda_function" "visitor_counter_lambda" {
-  function_name    = "updateVisitorCounterV5" # Renamed
+  function_name    = "updateVisitorCounterV6" # Renamed
   handler          = "lambda_function.lambda_handler"
   runtime          = "python3.12"
   role             = aws_iam_role.lambda_exec_role.arn
@@ -182,7 +182,7 @@ resource "aws_lambda_function" "visitor_counter_lambda" {
 
 # API GATEWAY
 resource "aws_apigatewayv2_api" "visitor_api" {
-  name          = "visitor-counter-api-v5" # Renamed
+  name          = "visitor-counter-api-v6" # Renamed
   protocol_type = "HTTP"
   cors_configuration {
     allow_origins = ["*"]
