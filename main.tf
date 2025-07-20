@@ -1,12 +1,9 @@
-# This block configures Terraform itself
 terraform {
-  # This new backend block tells Terraform to store its state file in our S3 bucket
   backend "s3" {
-    bucket = "mjaved-terraform-state-2025" # IMPORTANT: Use the unique name you just created
+    bucket = "mjaved-terraform-state-2025"
     key    = "global/s3/terraform.tfstate"
     region = "us-east-1"
   }
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -80,7 +77,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
-  aliases             = ["muhammadjaved.com", "www.muhammadjaved.com"]
+
+  # aliases = ["muhammadjaved.com", "www.muhammadjaved.com"] # Temporarily commented out
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -101,9 +99,14 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
+  # viewer_certificate { # Temporarily commented out
+  #   acm_certificate_arn = data.aws_acm_certificate.cert.arn
+  #   ssl_support_method  = "sni-only"
+  # }
+
+  # Use the default CloudFront certificate for this initial deployment
   viewer_certificate {
-    acm_certificate_arn = data.aws_acm_certificate.cert.arn
-    ssl_support_method  = "sni-only"
+    cloudfront_default_certificate = true
   }
 }
 
@@ -225,28 +228,27 @@ resource "aws_lambda_permission" "api_gateway_permission" {
   source_arn    = "${aws_apigatewayv2_api.visitor_api.execution_arn}/*/*"
 }
 
-# ROUTE 53 RECORDS
-resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.primary.zone_id
-  name    = "www.muhammadjaved.com"
-  type    = "A"
-  alias {
-    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
-resource "aws_route53_record" "root" {
-  zone_id = data.aws_route53_zone.primary.zone_id
-  name    = "muhammadjaved.com"
-  type    = "A"
-  alias {
-    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
+# ROUTE 53 RECORDS (Temporarily commented out)
+# resource "aws_route53_record" "www" {
+#   zone_id = data.aws_route53_zone.primary.zone_id
+#   name    = "www.muhammadjaved.com"
+#   type    = "A"
+#   alias {
+#     name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+#     zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+#     evaluate_target_health = false
+#   }
+# }
+# resource "aws_route53_record" "root" {
+#   zone_id = data.aws_route53_zone.primary.zone_id
+#   name    = "muhammadjaved.com"
+#   type    = "A"
+#   alias {
+#     name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+#     zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+#     evaluate_target_health = false
+#   }
+# }
 
 # OUTPUTS
 output "cloudfront_domain_name" {
