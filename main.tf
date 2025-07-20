@@ -249,3 +249,8 @@ output "cloudfront_domain_name" {
 output "api_invoke_url" {
   value = aws_apigatewayv2_api.visitor_api.api_endpoint
 }
+
+output "cloudfront_distribution_id" {
+  description = "The ID of the CloudFront distribution"
+  value       = aws_cloudfront_distribution.s3_distribution.id
+}
