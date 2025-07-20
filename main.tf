@@ -78,7 +78,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = ["muhammadjaved.com", "www.muhammadjaved.com"] # Re-enabled
+  # aliases = ["muhammadjaved.com", "www.muhammadjaved.com"] # Temporarily commented out
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -99,9 +99,14 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  viewer_certificate { # Re-enabled
-    acm_certificate_arn = data.aws_acm_certificate.cert.arn
-    ssl_support_method  = "sni-only"
+  # viewer_certificate { # Temporarily commented out
+  #   acm_certificate_arn = data.aws_acm_certificate.cert.arn
+  #   ssl_support_method  = "sni-only"
+  # }
+
+  # Use the default CloudFront certificate for this initial deployment
+  viewer_certificate {
+    cloudfront_default_certificate = true
   }
 }
 
@@ -223,27 +228,27 @@ resource "aws_lambda_permission" "api_gateway_permission" {
   source_arn    = "${aws_apigatewayv2_api.visitor_api.execution_arn}/*/*"
 }
 
-# ROUTE 53 RECORDS (Re-enabled)
-resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.primary.zone_id
-  name    = "www.muhammadjaved.com"
-  type    = "A"
-  alias {
-    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-resource "aws_route53_record" "root" {
-  zone_id = data.aws_route53_zone.primary.zone_id
-  name    = "muhammadjaved.com"
-  type    = "A"
-  alias {
-    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
+# ROUTE 53 RECORDS (Temporarily commented out)
+# resource "aws_route53_record" "www" {
+#   zone_id = data.aws_route53_zone.primary.zone_id
+#   name    = "www.muhammadjaved.com"
+#   type    = "A"
+#   alias {
+#     name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+#     zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+#     evaluate_target_health = false
+#   }
+# }
+# resource "aws_route53_record" "root" {
+#   zone_id = data.aws_route53_zone.primary.zone_id
+#   name    = "muhammadjaved.com"
+#   type    = "A"
+#   alias {
+#     name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+#     zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+#     evaluate_target_health = false
+#   }
+# }
 
 # OUTPUTS
 output "cloudfront_domain_name" {
