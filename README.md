@@ -10,9 +10,9 @@ This project is a personal portfolio and resume website built on a completely se
 
 * **Secure & Production-Ready**: Deployed with a custom domain from Route 53, an SSL/TLS certificate from AWS Certificate Manager (ACM) for HTTPS, and protected by AWS WAF to mitigate common web exploits.
 * **Globally Distributed & Low-Latency**: Leverages Amazon S3 for static hosting and CloudFront as a CDN for fast, secure content delivery to users worldwide.
-* **Dynamic & Serverless Backend**: Utilizes AWS Lambda, API Gateway, and DynamoDB to create a dynamic backend without managing servers.
+* **Dynamic & Serverless Backend**: Utilizes AWS Lambda, API Gateway, and DynamoDB to create dynamic features (like a visitor counter) without managing any servers.
 * **Infrastructure as Code (IaC)**: The entire AWS infrastructure is defined and managed in Terraform, enabling consistent, repeatable, and version-controlled deployments.
-* **Fully Automated CI/CD**: A GitHub Actions workflow automatically builds and deploys any changes pushed to the main branch, creating a seamless development and release process.
+* **Fully Automated CI/CD**: A GitHub Actions workflow automatically builds and deploys any changes pushed to the `main` branch, creating a seamless development and release process.
 
 ***
 
@@ -23,7 +23,7 @@ The architecture is designed for high availability, security, and performance by
 ```mermaid
 graph TD
     subgraph "User"
-        User["fa:fa-user User's Browser"]
+        UserBrowser["fa:fa-user User's Browser"]
     end
 
     subgraph "AWS Edge & DNS"
@@ -39,7 +39,7 @@ graph TD
         DynamoDB["fa:fa-database DynamoDB<br/>NoSQL Database"]
     end
 
-    User -- "HTTPS Request" --> Route53
+    UserBrowser -- "HTTPS Request" --> Route53
     Route53 -- "Resolves Domain" --> CloudFront
     CloudFront -- "Protected by" --> WAF
     WAF -- "Serves Static Content" --> S3
