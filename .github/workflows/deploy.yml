@@ -17,7 +17,9 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: code test
+          # Switched to 'snyk test' which scans for open source dependency vulnerabilities
+          # and is available on the free plan.
+          command: test
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,3 +52,4 @@ jobs:
           DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)
           echo "Found Distribution ID: $DISTRIBUTION_ID"
           aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
+
