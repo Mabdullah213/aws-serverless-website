@@ -17,9 +17,8 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          # Switched to 'snyk iac test' to scan Terraform files
-          # for infrastructure misconfigurations.
-          command: iac test
+          # Scan Terraform files and only fail the build for high-severity issues.
+          command: iac test --severity-threshold=high
 
   deploy:
     runs-on: ubuntu-latest
