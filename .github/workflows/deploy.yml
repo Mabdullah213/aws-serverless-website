@@ -6,8 +6,22 @@ on:
       - main
 
 jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+
   deploy:
     runs-on: ubuntu-latest
+    needs: security # This line makes the deploy job wait for the security job to succeed
     permissions:
       id-token: write 
       contents: read  
@@ -31,7 +45,6 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
-      # --- THIS STEP HAS BEEN UPDATED ---
       - name: Invalidate CloudFront Cache
         run: |
           DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)
